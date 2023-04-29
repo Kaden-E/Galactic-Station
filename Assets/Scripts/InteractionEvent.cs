@@ -4,5 +4,4 @@ using UnityEngine;
 public class InteractionEvent : MonoBehaviour
 {
     public UnityEvent OnInteract;
-
 }
