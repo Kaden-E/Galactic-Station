@@ -27,7 +27,7 @@ public class TurretAI : MonoBehaviour
             Vector3 targetPosition = player.position;
             targetPosition.y = transform.position.y;
             Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
-            targetRotation = Quaternion.Euler(initialRotation.eulerAngles.x, targetRotation.eulerAngles.y, initialRotation.eulerAngles.z);
+            targetRotation = Quaternion.Euler(targetRotation.eulerAngles);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
             if (Time.time >= nextFireTime)

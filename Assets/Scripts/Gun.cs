@@ -11,6 +11,10 @@ public class Gun : MonoBehaviour
     private Camera mainCamera;
     private float nextFireTime = 0f;
 
+    public GameObject bulletPrefab;
+    public Transform shootPoint;
+    public float bulletSpeed;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -21,6 +25,9 @@ public class Gun : MonoBehaviour
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + fireRate;
+            // Spawn a bullet prefab
+            GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, transform.rotation);
+            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
             Shoot();
         }
     }
@@ -31,7 +38,7 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, range))
         {
             Debug.Log("Hit " + hit.transform.name);
-            if (hit.transform.GetComponent<Target>()) 
+            if (hit.transform.GetComponent<Target>())
             {
                 hit.transform.GetComponent<Target>().TakeDamage(damage);
                 Debug.Log(hit.transform.GetComponent<Target>());
