@@ -1,34 +1,39 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public int maxHealth = 100;
-    private int _currentHealth;
+    public int startingHealth = 100;
+    public GameObject explosionEffect; 
+    public bool playExplosionEffect = true; 
 
+    private int currentHealth;
 
-    private void Start()
+    void Start()
     {
-        _currentHealth = maxHealth;
+        currentHealth = startingHealth;
     }
 
     public void TakeDamage(int damageAmount)
     {
-        _currentHealth -= damageAmount;
-
-        if (_currentHealth <= 0)
+        currentHealth -= damageAmount;
+        if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    private void Die()
+    void Die()
     {
+        if (playExplosionEffect)
+        {
+            
+            GameObject explosion = Instantiate(explosionEffect, transform.position, transform.rotation);
+            Destroy(explosion, 2f); // Destroy the explosion effect after 2 seconds
+        }
+        
+        // Destroy the target object
         Destroy(gameObject);
     }
-    
-    
-    
 }

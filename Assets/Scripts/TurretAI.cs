@@ -7,8 +7,13 @@ public class TurretAI : MonoBehaviour
     public Color rayColor = Color.red;
     public float rayDistance = 100f;
     public float turretRange = 20f;
+    public float fireRate = 3f;
+    public GameObject bulletPrefab;
+    public float bulletSpeed = 20f;
+    public Transform shootPoint;
 
     private Quaternion initialRotation;
+    private float nextFireTime = 0f;
 
     void Start()
     {
@@ -17,36 +22,23 @@ public class TurretAI : MonoBehaviour
 
     void Update()
     {
-        // Check if the player is within range
         if (Vector3.Distance(transform.position, player.position) <= turretRange)
         {
-            // Calculate the target rotation based on the player's position
             Vector3 targetPosition = player.position;
             targetPosition.y = transform.position.y;
             Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
-
-            // Clamp the rotation to the X axis only
             targetRotation = Quaternion.Euler(initialRotation.eulerAngles.x, targetRotation.eulerAngles.y, initialRotation.eulerAngles.z);
-
-            // Smoothly rotate the turret towards the target rotation
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
-            // Shoot a raycast in the direction the turret is facing
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, rayDistance))
+            if (Time.time >= nextFireTime)
             {
-                // Draw a debug line in the editor to show the raycast
-                Debug.DrawLine(transform.position, hit.point, rayColor);
-            }
-            else
-            {
-                // If the raycast doesn't hit anything, draw a debug line at maximum distance
-                Debug.DrawLine(transform.position, transform.position + transform.forward * rayDistance, rayColor);
+                nextFireTime = Time.time + fireRate;
+                GameObject bullet = Instantiate(bulletPrefab, shootPoint.position, transform.rotation);
+                bullet.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed, ForceMode.Impulse);
             }
         }
         else
         {
-            // If the player is out of range, swivel the turret
             transform.rotation = Quaternion.Euler(initialRotation.eulerAngles.x, transform.rotation.eulerAngles.y + rotationSpeed * Time.deltaTime, initialRotation.eulerAngles.z);
         }
     }
