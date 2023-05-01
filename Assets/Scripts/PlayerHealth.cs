@@ -1,36 +1,47 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Random = System.Random;
+
 
 public class PlayerHealth : MonoBehaviour
 {
     private float _health;
     private float _lerpTimer;
+    [Header("Health Bar")]
     public float maxHealth = 100f;
     public float chipSpeed = 2f;
     public Image frontHealthBar;
     public Image backHealthBar;
 
+    [Header("Damage overlay")] 
+    public Image overlay;
+
+    public float duration;
+    public float fadeSpeed;
+    public float durationTimer;
+    
+
     void Start()
     {
         _health = maxHealth;
+        overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 0);
     }
 
     private void Update()
     {
         _health = Mathf.Clamp(_health, 0, maxHealth);
         UpdateHealthUI();
-        if (Input.GetKeyDown(KeyCode.A))
+        if (overlay.color.a > 0)
         {
-            TakeDamage(5);
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            RestoreHealth(5);
+            if(_health < 30)
+                return;
+            durationTimer += Time.deltaTime;
+            if (durationTimer > duration)
+            {
+                float tempAlpha = overlay.color.a;
+                tempAlpha -= Time.deltaTime * fadeSpeed;
+                overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, tempAlpha);
+            }
         }
     }
 
@@ -65,6 +76,8 @@ public class PlayerHealth : MonoBehaviour
     {
         _health -= damage;
         _lerpTimer = 0f;
+        durationTimer = 0f;
+        overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 1);
     }
 
     public void RestoreHealth(float healAmount)
