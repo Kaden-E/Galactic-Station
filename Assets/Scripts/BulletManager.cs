@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
+    public int bulletDmg;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +19,7 @@ public class BulletManager : MonoBehaviour
             PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
             if(playerHealth != null)
             {
-                playerHealth.TakeDamage(10);
+                playerHealth.TakeDamage(bulletDmg);
             }
         }
         

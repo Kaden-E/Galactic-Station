@@ -24,6 +24,8 @@ public class PlayerMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(PauseControl.GameIsPaused)
+            return;
         _isGrounded = _controller.isGrounded;
     }
     //recieve input for inputmanager

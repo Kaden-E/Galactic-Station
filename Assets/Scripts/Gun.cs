@@ -22,6 +22,8 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
+        if(PauseControl.GameIsPaused)
+            return;
         if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
         {
             nextFireTime = Time.time + fireRate;

@@ -31,6 +31,8 @@ public class InputManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if(PauseControl.GameIsPaused)
+            return;
         _look.ProcessLook(_onFootActions.Look.ReadValue<Vector2>());
     }
 
