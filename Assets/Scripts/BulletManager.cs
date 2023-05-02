@@ -17,8 +17,10 @@ public class BulletManager : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            Shake shake = collision.gameObject.GetComponentInChildren<Shake>();
             if(playerHealth != null)
             {
+                shake.start = true;
                 playerHealth.TakeDamage(bulletDmg);
             }
         }
