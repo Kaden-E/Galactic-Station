@@ -1,11 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
 public class PlayerHealth : MonoBehaviour
 {
-    private float _health;
+    [FormerlySerializedAs("_health")] public float health;
     private float _lerpTimer;
     [Header("Health Bar")]
     public float maxHealth = 100f;
@@ -23,17 +24,17 @@ public class PlayerHealth : MonoBehaviour
 
     void Start()
     {
-        _health = maxHealth;
+        health = maxHealth;
         overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 0);
     }
 
     private void Update()
     {
-        _health = Mathf.Clamp(_health, 0, maxHealth);
+        health = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthUI();
         if (overlay.color.a > 0)
         {
-            if(_health < 30)
+            if(health < 30)
                 return;
             durationTimer += Time.deltaTime;
             if (durationTimer > duration)
@@ -47,10 +48,10 @@ public class PlayerHealth : MonoBehaviour
 
     public void UpdateHealthUI()
     {
-        Debug.Log(_health);
+        Debug.Log(health);
         float fillF = frontHealthBar.fillAmount;
         float fillB = backHealthBar.fillAmount;
-        float hFraction = _health / maxHealth;
+        float hFraction = health / maxHealth;
         if (fillB > hFraction)
         {
             frontHealthBar.fillAmount = hFraction;
@@ -74,7 +75,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        _health -= damage;
+        health -= damage;
         _lerpTimer = 0f;
         durationTimer = 0f;
         overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 1);
@@ -82,7 +83,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void RestoreHealth(float healAmount)
     {
-        _health += healAmount;
+        health += healAmount;
         _lerpTimer = 0f;
     }
     

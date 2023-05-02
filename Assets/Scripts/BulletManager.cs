@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class BulletManager : MonoBehaviour
@@ -23,9 +21,27 @@ public class BulletManager : MonoBehaviour
                 shake.start = true;
                 playerHealth.TakeDamage(bulletDmg);
             }
+
+            if (playerHealth.health<= 0f)
+            {
+                Die();
+                Debug.Log("Dead");
+            }
+            
+            
         }
         
         Destroy(this.gameObject);
     }
+
+    private void Die()
+    {
+        SceneManager.LoadScene("Breach");
+    }
+    
+    
+    
+    
+    
 
 }

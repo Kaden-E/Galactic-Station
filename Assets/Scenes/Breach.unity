@@ -37571,6 +37571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c115350d6e9fb14bb9aa38c1370e34d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   maxHealth: 100
   chipSpeed: 2
   frontHealthBar: {fileID: 152586467}
