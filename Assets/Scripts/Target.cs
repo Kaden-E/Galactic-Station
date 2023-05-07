@@ -8,7 +8,7 @@ public class Target : MonoBehaviour
     public GameObject explosionEffect; 
     public bool playExplosionEffect = true; 
 
-    private int currentHealth;
+    public int currentHealth;
 
     void Start()
     {
